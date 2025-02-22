@@ -17,4 +17,4 @@ If you run into any issues, check out the **Wiki** for solutions and troubleshoo
 ## 💬 Need Support?  
 
 Join our **Discord Community** for help, feature requests, and discussions:  
-👉 [**Join Discord**]([https://discord.gg/y4xwPpCyWn](https://discord.gg/GtMVHa2JbP))  
+👉 [**Join Discord**](https://discord.gg/GtMVHa2JbP)  
