@@ -52,6 +52,15 @@
         }
 
         main {
+            width: 100%;
+            height: 80%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .download_box {
             width: min(90%, 700px);
             margin-left: auto;
             margin-right: auto;
@@ -188,7 +197,20 @@
             margin-top: auto;
             margin-bottom: auto;
         }
+        .filter_layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: -998;
+        }
 
+        .BARL_Background {
+            position: fixed;
+            z-index: -999;
+        }
 
     </style>
     <script>
@@ -197,6 +219,12 @@
     </script>
 </head>
 <body>
+<img
+    alt="BARL_Background"
+    src="https://lndrlndr.github.io/BARL_App/BARL_Background.jpg"
+    class="BARL_Background"
+/>
+<div class="filter_layer"></div>
 <header>
     <ul>
         <li title="CARL: Analysis Tool for Rocket League">
@@ -222,6 +250,7 @@
     </ul>
 </header>
 <main>
+    <div class="download_box">
     <h1>Download BARL</h1>
     <h2>Broadcast Assistant for Rocket League</h2>
     <a href="https://github.com/LNDRLNDR/BARL_App/releases/download/1.6.4/BARL-V1.6.4-Installer.exe"
@@ -243,6 +272,7 @@
         </svg>
         <div>Join the Discord</div>
     </a>
+    </div>
 
 </main>
 
