@@ -1,0 +1,13 @@
+# Download BARL — Broadcast Assistant for Rocket League
+
+> Direct download page for BARL, a free Windows desktop application providing a Rocket League broadcasting overlay with automated series score, real-time boost meters, and customizable team branding. Download the installer and join the Discord for setup instructions.
+
+## Download
+
+- [BARL Download Page](https://lndrlndr.github.io/BARL_App/): Download the latest BARL installer (.exe for Windows)
+- [BARL Discord](https://discord.gg/qF5FkJxNdR): Support, download assistance, and community
+
+## Optional
+
+- [BARL Feature Overview](https://lndrlndr.github.io/BARL-Overlay/): Full feature documentation for BARL
+- [BARL Product Page](https://lndrlndr.github.io/BARL/): Detailed feature list with video demonstrations
