@@ -7,6 +7,11 @@
 Get the latest version of **BARL App** from the official download page:  
 👉 [**Download BARL App**](https://lndrlndr.github.io/BARL_App/)  
 
+## 🛰️ Two-PC Setup (Remote Connection)  
+
+Running Rocket League and your stream on **two different PCs**? Use the **BARL Remote Connection** relay tool to send live game data from your Game PC to your Stream PC over your local network.  
+👉 [**Setup guide & download**](https://github.com/LNDRLNDR/BARL_App/tree/main/BARL_RemoteConnection)  
+
 ## 🛠 Troubleshooting 
 
 If you run into any issues, check out the **Wiki** for solutions and troubleshooting guides:  
