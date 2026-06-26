@@ -1,0 +1,6 @@
+{
+  "remote_ip": "192.168.0.180",
+  "remote_port": 49123,
+  "local_port": 49123,
+  "debug": false
+}
