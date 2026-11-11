@@ -53,11 +53,329 @@
 
         main {
             width: 100%;
-            height: 80%;
+            min-height: 80%;
 
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding-bottom: 40px;
+        }
+
+
+        /* ---------- Clips carousel (adapted from the CARL2 testimonials carousel) ---------- */
+        .testimonials {
+            width: 100%;
+            margin: 25px auto 0 auto;
+        }
+
+        .testimonials h2 {
+            color: #FFFFFF;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .testimonials .subtitle {
+            color: #DCE6FA;
+            text-align: center;
+            font-size: 1.05rem;
+            margin: 0 20px 24px 20px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        /* viewport: one card in focus, neighbours fade out on both sides */
+        .carousel {
+            position: relative;
+            width: min(100%, 780px);
+            margin: 0 auto;
+            overflow-x: auto;
+            padding: 8px 0;
+            scrollbar-width: none;
+            cursor: grab;
+            -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0, 0, 0, .35) 5%, #000 14%, #000 86%, rgba(0, 0, 0, .35) 95%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, rgba(0, 0, 0, .35) 5%, #000 14%, #000 86%, rgba(0, 0, 0, .35) 95%, transparent 100%);
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel.dragging {
+            cursor: grabbing;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .carousel_track {
+            display: flex;
+            width: max-content;
+        }
+
+        .carousel_group {
+            display: flex;
+            gap: 20px;
+            padding-right: 20px; /* equals the gap, so the loop is seamless */
+        }
+
+        .clip_card {
+            background-color: #FFFFFF;
+            border-radius: 24px;
+            padding: 12px 12px 16px 12px;
+            width: min(85vw, 360px);
+            flex: 0 0 auto;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+            transition: border-color .25s;
+        }
+
+        .clip_card:hover,
+        .clip_card:focus-within {
+            border-color: #6696FE;
+        }
+
+        .clip_player {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #041E49;
+            aspect-ratio: 16 / 9;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .clip_player video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+        }
+
+        .clip_player svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+            display: block;
+        }
+
+        .clip_player button {
+            appearance: none;
+            -webkit-appearance: none;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            background: none;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        /* big play button, shown while the clip is paused */
+        .vc_big {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 56px;
+            height: 56px;
+            padding: 12px !important;
+            margin: -28px 0 0 -28px !important;
+            box-sizing: border-box;
+            border-radius: 50%;
+            background: rgba(4, 30, 73, .72) !important;
+            transition: transform .15s, background .15s;
+        }
+
+        .vc_big:hover {
+            transform: scale(1.08);
+            background: #6696FE !important;
+        }
+
+        .clip_player.playing .vc_big {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* control bar: play/pause, progress (display only), mute, volume. No fullscreen. */
+        .vc_bar {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 10px 8px 10px;
+            background: linear-gradient(to top, rgba(0, 0, 0, .65), rgba(0, 0, 0, 0));
+        }
+
+        .vc_play, .vc_mute {
+            flex: 0 0 auto;
+            width: 22px;
+            height: 22px;
+        }
+
+        .vc_play:hover, .vc_mute:hover, .vc_play:focus-visible, .vc_mute:focus-visible {
+            color: #F8982D;
+        }
+
+        .vc_progress {
+            flex: 1 1 auto;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, .35);
+            overflow: hidden;
+        }
+
+        .vc_progress span {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: #6696FE;
+        }
+
+        .vc_volume {
+            flex: 0 0 56px;
+            width: 56px;
+            height: 14px;
+            margin: 0;
+            accent-color: #6696FE;
+            cursor: pointer;
+        }
+
+        /* low-profile navigation: faint arrows at both ends, tiny dots underneath */
+        .carousel_wrap {
+            position: relative;
+            width: min(100%, 780px);
+            margin: 0 auto;
+        }
+
+        .carousel_wrap .carousel {
+            width: 100%;
+            height: auto;   /* Materialize gives .carousel a fixed 400px height; size to the cards instead */
+        }
+
+        .car_arrow {
+            position: absolute;
+            top: 50%;
+            width: 28px;
+            height: 28px;
+            margin-top: -14px;
+            padding: 0;
+            border: 0;
+            background: none;
+            color: #FFFFFF;
+            opacity: .4;
+            cursor: pointer;
+            transition: opacity .2s, color .2s;
+            z-index: 2;
+        }
+
+        .car_arrow svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+            display: block;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .8));
+        }
+
+        .car_prev { left: 2px; }
+        .car_next { right: 2px; }
+
+        .car_arrow:hover,
+        .car_arrow:focus-visible {
+            opacity: 1;
+            color: #F8982D;
+        }
+
+        .carousel_dots {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0 auto;
+            max-width: 90%;
+        }
+
+        .car_dot {
+            width: 18px;
+            height: 18px;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .car_dot::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            margin: -3px 0 0 -3px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .35);
+            transition: background .2s, transform .2s;
+        }
+
+        .car_dot:hover::before,
+        .car_dot:focus-visible::before {
+            background: rgba(255, 255, 255, .8);
+        }
+
+        .car_dot.active::before {
+            background: #FFFFFF;
+            transform: scale(1.25);
+        }
+
+        .clip_card footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 12px 8px 0 8px;
+        }
+
+        .clip_card .author {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .clip_card .meta {
+            font-size: .85rem;
+            font-weight: 400;
+            color: #5B6B8C;
+        }
+
+        .clip_card a.source {
+            font-size: .85rem;
+            font-weight: 500;
+            color: #6696FE;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .clip_card a.source:hover,
+        .clip_card a.source:focus-visible {
+            color: #F8982D;
+        }
+
+        @media (max-width: 700px) {
+            .testimonials h2 {
+                font-size: 1.6rem;
+            }
+
+            .clip_card {
+                width: 80vw;
+            }
+
+            .carousel {
+                -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+                mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+            }
         }
 
         .download_box {
@@ -274,8 +592,598 @@
     </a>
     </div>
 
+    <section class="testimonials" aria-labelledby="clips-title">
+        <h2 id="clips-title">Streamers using BARL</h2>
+        <p class="subtitle">Clips from streamers, casters and esports teams.</p>
+
+        <div class="carousel_wrap">
+        <div class="carousel" id="carousel" role="region" aria-roledescription="carousel"
+             aria-label="Clips from BARL users">
+            <div class="carousel_track">
+                <div class="carousel_group" id="carousel_group">
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/01_longey.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from Longey">
+                                <source src="clips/01_longey.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">Longey</div>
+                                <div class="meta">Twitch clip</div>
+                            </div>
+                            <a class="source" href="https://www.twitch.tv/longeyrl/clip/CallousTransparentCocoaRedCoat-0aTBR6z5VItvC1Ze" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/02_kevdog.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from Kevdog">
+                                <source src="clips/02_kevdog.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">Kevdog</div>
+                                <div class="meta">Twitch clip</div>
+                            </div>
+                            <a class="source" href="https://www.twitch.tv/kevdogcasts/clip/SmoggyAthleticStrawberryKAPOW-Je7e2cN-41pxuZmC" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/03_tyzen.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from Tyzen Esports">
+                                <source src="clips/03_tyzen.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">Tyzen Esports</div>
+                                <div class="meta">Twitch clip</div>
+                            </div>
+                            <a class="source" href="https://www.twitch.tv/tyzenesportseu/clip/VenomousSmoggyEndiveCoolStoryBob-rbw8IkXJVHCuARUo" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/04_deletedxdgaming.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from DELETEDXDGAMING">
+                                <source src="clips/04_deletedxdgaming.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">DELETEDXDGAMING</div>
+                                <div class="meta">Twitch clip</div>
+                            </div>
+                            <a class="source" href="https://www.twitch.tv/deletedxdgaming/clip/LightEasyMochaHeyGuys-oWxpsX8tGQ07-0AP" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/05_whoopsyou.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from Whoopsyou">
+                                <source src="clips/05_whoopsyou.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">Whoopsyou</div>
+                                <div class="meta">Twitch clip</div>
+                            </div>
+                            <a class="source" href="https://www.twitch.tv/whoopsyou/clip/NeighborlyManlyFennelSeemsGood-zAWXhJL4m4nWRVke" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/06_thedraw.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from The Draw">
+                                <source src="clips/06_thedraw.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">The Draw</div>
+                                <div class="meta">Twitch clip</div>
+                            </div>
+                            <a class="source" href="https://www.twitch.tv/vodible/clip/InnocentLittleCiderHassanChop-AAln0IxCtfGX6L8H" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/07_spragouu.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from spragouu">
+                                <source src="clips/07_spragouu.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">spragouu</div>
+                                <div class="meta">Twitch clip</div>
+                            </div>
+                            <a class="source" href="https://www.twitch.tv/spragouu/clip/AmericanRelentlessWoodpeckerLitty-z9JpiEA8t7ecExKU" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/08_arenax.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from ArenaX">
+                                <source src="clips/08_arenax.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">ArenaX</div>
+                                <div class="meta">Twitch clip</div>
+                            </div>
+                            <a class="source" href="https://www.twitch.tv/ocearenax/clip/RacyEphemeralHedgehogItsBoshyTime-UGcA1OGCyKJuHc7n" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/09_jorby.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from Jorby">
+                                <source src="clips/09_jorby.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">Jorby</div>
+                                <div class="meta">BARL review</div>
+                            </div>
+                            <a class="source" href="https://clips.twitch.tv/ElatedSquareAlligatorSquadGoals-4URMJPJvsiINpmeh" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/10_herculyse.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from herculyse">
+                                <source src="clips/10_herculyse.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">herculyse</div>
+                                <div class="meta">BARL review</div>
+                            </div>
+                            <a class="source" href="https://clips.twitch.tv/ApatheticSillyPotatoTBCheesePull-zKmhw1c0ILdOky4G" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/11_rizzo_review.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from Rizzo">
+                                <source src="clips/11_rizzo_review.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">Rizzo</div>
+                                <div class="meta">BARL review</div>
+                            </div>
+                            <a class="source" href="https://clips.twitch.tv/WimpyImpossibleToothTwitchRPG-Gx9tJyAMjogZrQf2" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/12_rizzo_first.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from Rizzo">
+                                <source src="clips/12_rizzo_first.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">Rizzo</div>
+                                <div class="meta">First impressions</div>
+                            </div>
+                            <a class="source" href="https://clips.twitch.tv/ChillyBluePizzaOMGScoots-NNrAoOSXVjwxq69B" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="car_arrow car_prev" aria-label="Previous clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 6.4 14 5l-7 7 7 7 1.4-1.4L9.8 12z"/></svg></button>
+        <button type="button" class="car_arrow car_next" aria-label="Next clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 17.6 10 19l7-7-7-7-1.4 1.4L14.2 12z"/></svg></button>
+        </div>
+        <div class="carousel_dots" id="carousel_dots" role="group" aria-label="Choose a clip"></div>
+    </section>
 </main>
 
+<script>
+    // Clips carousel.
+    // - Cards are duplicated twice (3 identical sets) so the strip can loop in both directions.
+    // - It auto-scrolls slowly; hover, keyboard focus, a touch, a drag or a button press pauses it.
+    // - Users can drag (mouse), swipe (touch), use a trackpad/shift+wheel, or the arrow buttons.
+    (function () {
+      var carousel = document.getElementById('carousel');
+      var group = document.getElementById('carousel_group');
+      if (!carousel || !group) return;
+      var track = group.parentNode;
+
+      for (var i = 0; i < 2; i++) {
+        var copy = group.cloneNode(true);
+        copy.removeAttribute('id');
+        copy.setAttribute('aria-hidden', 'true');
+        copy.querySelectorAll('a').forEach(function (a) { a.setAttribute('tabindex', '-1'); });
+        track.appendChild(copy);
+      }
+
+      var SPEED = 32;          // px per second
+      var RESUME_DELAY = 2000; // ms of calm after a manual action before auto-scroll resumes
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var cards = carousel.querySelectorAll('.clip_card');
+      var G = 0;               // width of one set of cards
+
+      var pos = 0, lastSet = 0, lastScrollAt = 0, holdUntil = 0;
+      var hovering = false, focused = false, touchHeld = false, dragging = false, playing = false;
+      var dragStartX = 0, dragStartLeft = 0, dragMoved = false;
+
+      function now() { return performance.now(); }
+      function centerLeft(card) { return card.offsetLeft - (carousel.clientWidth - card.offsetWidth) / 2; }
+
+      function measure() {
+        G = track.children[1].offsetLeft - track.children[0].offsetLeft;
+      }
+
+      function start() {
+        measure();
+        pos = centerLeft(track.children[1].children[0]); // first card of the middle set, centred
+        carousel.scrollLeft = pos;
+        lastSet = carousel.scrollLeft;
+      }
+
+      // clips: custom player (play/pause + volume only, no fullscreen).
+      // One clip plays at a time, and the strip stays still while a clip is playing.
+      var allVideos = carousel.querySelectorAll('video');
+      var vol = { level: 0.5, muted: false };   // shared by every clip; half volume by default
+
+      function anyPlaying() {
+        return Array.prototype.some.call(allVideos, function (x) { return !x.paused; });
+      }
+      // a clip that is playing, or paused part-way, keeps its card in place (no loop re-centring)
+      function pinned() {
+        return Array.prototype.some.call(allVideos, function (x) {
+          return !x.paused || (x.currentTime > 0 && !x.ended);
+        });
+      }
+
+      function syncVolume(v) { v.volume = vol.level; v.muted = vol.muted; }
+
+      function refreshVolumeUI() {
+        carousel.querySelectorAll('.clip_player').forEach(function (p) {
+          p.querySelector('.vc_volume').value = vol.muted ? 0 : vol.level;
+          p.querySelector('.vc_mute').setAttribute('aria-label', vol.muted || vol.level === 0 ? 'Unmute' : 'Mute');
+          p.querySelector('.vc_mute').style.opacity = vol.muted || vol.level === 0 ? .55 : 1;
+        });
+      }
+
+      carousel.querySelectorAll('.clip_player').forEach(function (p) {
+        var v = p.querySelector('video');
+        var fill = p.querySelector('.vc_progress span');
+        var bigBtn = p.querySelector('.vc_big');
+        var playBtn = p.querySelector('.vc_play');
+        var playPath = playBtn.querySelector('path').getAttribute('d');
+        var pausePath = 'M6 5h4v14H6zm8 0h4v14h-4z';
+
+        function setPlayingUI(on) {
+          p.classList.toggle('playing', on);
+          playBtn.querySelector('path').setAttribute('d', on ? pausePath : playPath);
+          playBtn.setAttribute('aria-label', on ? 'Pause' : 'Play');
+        }
+        function toggle() { if (v.paused) { v.play(); } else { v.pause(); } }
+
+        v.addEventListener('play', function () {
+          allVideos.forEach(function (o) {
+            if (o === v) return;
+            if (!o.paused) o.pause();
+            if (o.currentTime > 0) o.currentTime = 0;   // the clip you left starts over next time
+          });
+          syncVolume(v);
+          playing = true;
+          setPlayingUI(true);
+        });
+        v.addEventListener('pause', function () { playing = anyPlaying(); setPlayingUI(false); });
+        v.addEventListener('ended', function () { playing = anyPlaying(); setPlayingUI(false); fill.style.width = '0'; });
+        v.addEventListener('timeupdate', function () {
+          fill.style.width = v.duration ? (v.currentTime / v.duration * 100) + '%' : '0';
+        });
+        v.addEventListener('click', toggle);
+        v.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+        v.addEventListener('dblclick', function (e) { e.preventDefault(); });
+        bigBtn.addEventListener('click', toggle);
+        playBtn.addEventListener('click', toggle);
+
+        p.querySelector('.vc_mute').addEventListener('click', function () {
+          if (vol.muted || vol.level === 0) { vol.muted = false; if (vol.level === 0) vol.level = 1; }
+          else { vol.muted = true; }
+          allVideos.forEach(syncVolume);
+          refreshVolumeUI();
+        });
+        p.querySelector('.vc_volume').addEventListener('input', function (e) {
+          vol.level = parseFloat(e.target.value);
+          vol.muted = vol.level === 0;
+          allVideos.forEach(syncVolume);
+          refreshVolumeUI();
+        });
+      });
+
+      // clicking a card that is not fully in view only brings it into focus (centres it)
+      carousel.addEventListener('click', function (e) {
+        var card = e.target.closest ? e.target.closest('.clip_card') : null;
+        if (!card) return;
+        var c = carousel.getBoundingClientRect(), r = card.getBoundingClientRect();
+        if (r.left >= c.left - 1 && r.right <= c.right + 1) return;   // already fully in view
+        e.preventDefault();
+        e.stopPropagation();
+        selectAndPlay(card);
+      }, true);
+
+      // selecting a clip (arrows, dots, or clicking a card that is out of focus) centres it,
+      // then plays it at the shared volume (half by default). Browsers only allow sound after the
+      // visitor has interacted with the page, which a click on any of those controls counts as.
+      var selectToken = 0;
+      function selectAndPlay(card) {
+        var token = ++selectToken;
+        var v = card.querySelector('video');
+        var target = centerLeft(card);
+        holdUntil = now() + RESUME_DELAY + 800;
+        allVideos.forEach(function (o) { if (o !== v && !o.paused) o.pause(); });
+        var fired = false;
+        function go() {
+          if (fired || token !== selectToken) return;
+          fired = true;
+          carousel.removeEventListener('scrollend', go);
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});   // blocked by the browser: the play button still works
+        }
+        if (Math.abs(carousel.scrollLeft - target) < 2) { go(); return; }
+        carousel.addEventListener('scrollend', go);
+        setTimeout(go, 900);                            // fallback for browsers without scrollend
+        carousel.scrollTo({ left: target, behavior: 'smooth' });
+      }
+
+      // navigation: small arrows at both ends + one dot per clip (all low profile)
+      var wrap = carousel.parentNode;
+      var dotsEl = document.getElementById('carousel_dots');
+      var nClips = group.children.length;
+      var allCards = Array.prototype.slice.call(carousel.querySelectorAll('.clip_card'));
+      var dots = [];
+
+      function nearestIndex() {
+        var mid = carousel.scrollLeft + carousel.clientWidth / 2, best = 0, bestD = 1e9;
+        allCards.forEach(function (c, i) {
+          var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+          if (d < bestD) { bestD = d; best = i; }
+        });
+        return best;
+      }
+
+      function goTo(i) {
+        if (i < 0 || i >= allCards.length) return;
+        selectAndPlay(allCards[i]);
+      }
+
+      for (var k = 0; k < nClips; k++) {
+        (function (k) {
+          var d = document.createElement('button');
+          d.type = 'button';
+          d.className = 'car_dot';
+          d.setAttribute('aria-label', 'Show clip ' + (k + 1) + ' of ' + nClips);
+          d.addEventListener('click', function () {
+            var cur = nearestIndex(), best = k, bestD = 1e9;
+            for (var j = k; j < allCards.length; j += nClips) {      // same clip in each of the 3 sets: pick the closest
+              if (Math.abs(j - cur) < bestD) { bestD = Math.abs(j - cur); best = j; }
+            }
+            goTo(best);
+          });
+          dotsEl.appendChild(d);
+          dots.push(d);
+        })(k);
+      }
+
+      wrap.querySelector('.car_prev').addEventListener('click', function () { goTo(nearestIndex() - 1); });
+      wrap.querySelector('.car_next').addEventListener('click', function () { goTo(nearestIndex() + 1); });
+
+      var dotRaf = 0;
+      function updateDots() {
+        dotRaf = 0;
+        var active = nearestIndex() % nClips;
+        dots.forEach(function (d, i) {
+          d.classList.toggle('active', i === active);
+          if (i === active) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+        });
+      }
+      carousel.addEventListener('scroll', function () { if (!dotRaf) dotRaf = requestAnimationFrame(updateDots); }, { passive: true });
+      window.addEventListener('resize', updateDots);
+      window.addEventListener('load', updateDots);
+      updateDots();
+
+      // pause conditions
+      carousel.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hovering = true; });
+      carousel.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hovering = false; });
+      carousel.addEventListener('focusin', function () { focused = true; });
+      carousel.addEventListener('focusout', function (e) { focused = carousel.contains(e.relatedTarget); });
+      carousel.addEventListener('scroll', function () { lastScrollAt = now(); }, { passive: true });
+      carousel.addEventListener('wheel', function () { holdUntil = now() + RESUME_DELAY; }, { passive: true });
+
+      // touch: swiping scrolls natively; a touch also pauses until the user taps elsewhere
+      carousel.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'touch') touchHeld = true;
+      });
+      document.addEventListener('pointerdown', function (e) {
+        if (!carousel.contains(e.target)) touchHeld = false;
+      });
+
+      // mouse drag
+      carousel.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        if (e.target.closest && e.target.closest('input')) return;   // volume slider: do not drag the strip
+        dragging = true;
+        dragMoved = false;
+        dragStartX = e.clientX;
+        dragStartLeft = carousel.scrollLeft;
+        carousel.classList.add('dragging');
+      });
+      window.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        var dx = e.clientX - dragStartX;
+        if (Math.abs(dx) > 5) dragMoved = true;
+        carousel.scrollLeft = dragStartLeft - dx;
+      });
+      function endDrag() {
+        if (!dragging) return;
+        dragging = false;
+        carousel.classList.remove('dragging');
+        holdUntil = now() + RESUME_DELAY;
+      }
+      window.addEventListener('pointerup', endDrag);
+      window.addEventListener('pointercancel', endDrag);
+      carousel.addEventListener('dragstart', function (e) { e.preventDefault(); });
+      carousel.addEventListener('click', function (e) {
+        if (dragMoved) { e.preventDefault(); e.stopPropagation(); }
+        dragMoved = false;
+      }, true);
+
+      // animation loop: auto-scroll + keep the position inside the middle set
+      var prevT = 0;
+      function frame(t) {
+        var dt = Math.min(t - (prevT || t), 50) / 1000;
+        prevT = t;
+
+        var sl = carousel.scrollLeft;
+        var autoAllowed = !reduced.matches && !hovering && !focused && !touchHeld && !dragging && !playing &&
+                          t >= holdUntil && !document.hidden;
+        var idle = !dragging && (now() - lastScrollAt > 150);
+        var moved = false;
+
+        if (sl !== lastSet) pos = sl;           // the user moved it: follow
+        if (autoAllowed) { pos += SPEED * dt; moved = true; }
+        if ((autoAllowed || idle) && !pinned()) {              // wrap around without a visible jump
+          if (pos >= G * 1.5) { pos -= G; moved = true; }
+          else if (pos < G * 0.5) { pos += G; moved = true; }
+        }
+
+        if (moved) { carousel.scrollLeft = pos; lastSet = carousel.scrollLeft; }
+        else { pos = sl; lastSet = sl; }
+        requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', measure);
+      window.addEventListener('load', measure);
+      start();
+      requestAnimationFrame(frame);
+    })();
+</script>
 </body>
 
 </html>
