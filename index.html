@@ -235,6 +235,60 @@
             background: #6696FE;
         }
 
+        /* the progress bar is a seek bar: bigger hit area, thumb on hover/drag */
+        .vc_progress {
+            height: 18px;
+            border-radius: 0;
+            background: none;
+            overflow: visible;
+            position: relative;
+            cursor: pointer;
+            touch-action: none;
+        }
+
+        .vc_progress::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 7px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, .35);
+        }
+
+        .vc_progress span {
+            position: absolute;
+            left: 0;
+            top: 7px;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .vc_progress span::after {
+            content: "";
+            position: absolute;
+            right: -5px;
+            top: -3px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            transform: scale(0);
+            transition: transform .15s;
+        }
+
+        .vc_progress:hover span::after,
+        .vc_progress:focus-visible span::after,
+        .vc_progress.scrubbing span::after {
+            transform: scale(1);
+        }
+
+        .vc_progress:focus-visible {
+            outline: 2px solid #6696FE;
+            outline-offset: 1px;
+        }
+
         .vc_volume {
             flex: 0 0 56px;
             width: 56px;
@@ -612,7 +666,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -627,30 +681,6 @@
                     </article>
                     <article class="clip_card">
                         <div class="clip_player">
-                            <video playsinline preload="none" poster="clips/11_rizzo_review.jpg"
-                                   disablepictureinpicture disableremoteplayback
-                                   controlslist="nodownload nofullscreen noremoteplayback"
-                                   aria-label="BARL clip from Rizzo">
-                                <source src="clips/11_rizzo_review.mp4" type="video/mp4">
-                            </video>
-                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                            <div class="vc_bar">
-                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
-                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
-                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
-                            </div>
-                        </div>
-                        <footer>
-                            <div>
-                                <div class="author">Rizzo</div>
-                                <div class="meta">BARL review</div>
-                            </div>
-                            <a class="source" href="https://clips.twitch.tv/WimpyImpossibleToothTwitchRPG-Gx9tJyAMjogZrQf2" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
-                        </footer>
-                    </article>
-                    <article class="clip_card">
-                        <div class="clip_player">
                             <video playsinline preload="none" poster="clips/10_herculyse.jpg"
                                    disablepictureinpicture disableremoteplayback
                                    controlslist="nodownload nofullscreen noremoteplayback"
@@ -660,7 +690,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -684,7 +714,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -708,7 +738,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -732,7 +762,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -756,7 +786,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -771,6 +801,30 @@
                     </article>
                     <article class="clip_card">
                         <div class="clip_player">
+                            <video playsinline preload="none" poster="clips/11_rizzo_review.jpg"
+                                   disablepictureinpicture disableremoteplayback
+                                   controlslist="nodownload nofullscreen noremoteplayback"
+                                   aria-label="BARL clip from Rizzo">
+                                <source src="clips/11_rizzo_review.mp4" type="video/mp4">
+                            </video>
+                            <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="vc_bar">
+                                <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+                                <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
+                                <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+                            </div>
+                        </div>
+                        <footer>
+                            <div>
+                                <div class="author">Rizzo</div>
+                                <div class="meta">BARL review</div>
+                            </div>
+                            <a class="source" href="https://clips.twitch.tv/WimpyImpossibleToothTwitchRPG-Gx9tJyAMjogZrQf2" target="_blank" rel="noopener noreferrer">View on Twitch &rarr;</a>
+                        </footer>
+                    </article>
+                    <article class="clip_card">
+                        <div class="clip_player">
                             <video playsinline preload="none" poster="clips/05_whoopsyou.jpg"
                                    disablepictureinpicture disableremoteplayback
                                    controlslist="nodownload nofullscreen noremoteplayback"
@@ -780,7 +834,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -804,7 +858,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -828,7 +882,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -852,7 +906,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -876,7 +930,7 @@
                             <button type="button" class="vc_big" aria-label="Play clip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
                             <div class="vc_bar">
                                 <button type="button" class="vc_play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-                                <div class="vc_progress" aria-hidden="true"><span></span></div>
+                                <div class="vc_progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
                                 <button type="button" class="vc_mute" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>
                                 <input type="range" class="vc_volume" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
                             </div>
@@ -969,7 +1023,40 @@
 
       carousel.querySelectorAll('.clip_player').forEach(function (p) {
         var v = p.querySelector('video');
-        var fill = p.querySelector('.vc_progress span');
+        var bar = p.querySelector('.vc_progress');
+        var fill = bar.querySelector('span');
+        var seeking = false;
+
+        // seek bar: click or drag to jump around the clip; arrow keys step 5 s
+        function hasDuration() { return isFinite(v.duration) && v.duration > 0; }
+        function seekTo(e) {
+          if (!hasDuration()) return;
+          var r = bar.getBoundingClientRect();
+          var f = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+          v.currentTime = f * v.duration;
+          fill.style.width = (f * 100) + '%';
+          bar.setAttribute('aria-valuenow', Math.round(f * 100));
+        }
+        bar.addEventListener('pointerdown', function (e) {
+          e.stopPropagation();                       // do not start a carousel drag or pause the strip
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+          if (!hasDuration()) { v.preload = 'metadata'; v.load(); return; }   // clip not loaded yet: fetch it so the next try works
+          seeking = true;
+          bar.classList.add('scrubbing');
+          bar.setPointerCapture(e.pointerId);
+          seekTo(e);
+        });
+        bar.addEventListener('pointermove', function (e) { if (seeking) seekTo(e); });
+        function endSeek() { seeking = false; bar.classList.remove('scrubbing'); }
+        bar.addEventListener('pointerup', endSeek);
+        bar.addEventListener('pointercancel', endSeek);
+        bar.addEventListener('keydown', function (e) {
+          if (!hasDuration()) return;
+          var step = e.key === 'ArrowRight' ? 5 : e.key === 'ArrowLeft' ? -5 : 0;
+          if (!step && e.key !== 'Home' && e.key !== 'End') return;
+          e.preventDefault();
+          v.currentTime = e.key === 'Home' ? 0 : e.key === 'End' ? v.duration : Math.min(v.duration, Math.max(0, v.currentTime + step));
+        });
         var bigBtn = p.querySelector('.vc_big');
         var playBtn = p.querySelector('.vc_play');
         var playPath = playBtn.querySelector('path').getAttribute('d');
@@ -995,7 +1082,10 @@
         v.addEventListener('pause', function () { playing = anyPlaying(); setPlayingUI(false); });
         v.addEventListener('ended', function () { playing = anyPlaying(); setPlayingUI(false); fill.style.width = '0'; });
         v.addEventListener('timeupdate', function () {
-          fill.style.width = v.duration ? (v.currentTime / v.duration * 100) + '%' : '0';
+          if (seeking) return;
+          var pct = v.duration ? v.currentTime / v.duration * 100 : 0;
+          fill.style.width = pct + '%';
+          bar.setAttribute('aria-valuenow', Math.round(pct));
         });
         v.addEventListener('click', toggle);
         v.addEventListener('contextmenu', function (e) { e.preventDefault(); });
